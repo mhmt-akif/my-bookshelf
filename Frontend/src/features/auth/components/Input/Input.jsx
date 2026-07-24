@@ -3,15 +3,25 @@ import { useState } from "react"
 import { Ionicons } from '@expo/vector-icons'
 import styles from "./styles"
 
-export const Input = ({ label, placeholder, value, onChangeText, secureTextEntry, ...props }) => {
+export const Input = ({
+    label,
+    placeholder,
+    value,
+    onChangeText,
+    secureTextEntry,
+    containerStyle,
+    inputContainerStyle,
+    inputStyle,
+    ...props
+}) => {
     const [isSecure, setIsSecure] = useState(secureTextEntry || false)
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             {label && <Text style={styles.label}>{label}</Text>}
-            <View style={styles.inputContainer}>
+            <View style={[styles.inputContainer, inputContainerStyle]}>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, inputStyle]}
                     placeholder={placeholder}
                     placeholderTextColor="#8C8881"
                     value={value}
