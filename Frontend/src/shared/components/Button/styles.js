@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { FONTS } from "../../theme/typography";
 
 const styles = StyleSheet.create({
     container: {
@@ -11,9 +12,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     title: {
+        fontFamily: FONTS.abrilFatface,
         color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: '900', // Kalın yazı
+        fontSize: 18,
     }
 })
 export default styles

@@ -41,15 +41,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginTop: 20,
         alignItems: "center"
-    },
-    forgotPasswordContainer: {
-        alignItems: 'flex-end',
-        marginBottom: 15,
-    },
-    forgotPasswordText: {
-        color: '#C7753D',
-        fontSize: 13,
-        fontWeight: 'bold',
-    },
+    }
+
 })
 export default styles;
