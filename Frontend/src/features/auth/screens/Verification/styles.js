@@ -33,23 +33,22 @@ const styles = StyleSheet.create({
         color: "#6A6155",
         paddingHorizontal: 20,
     },
-    formContainer: {
+    otpContainer: {
         paddingHorizontal: 20,
-        marginTop: 30,
+        marginTop: 10,
+        marginBottom: 30,
     },
     btnContainer: {
         paddingHorizontal: 20,
-        marginTop: 20,
+
         alignItems: "center"
     },
-    forgotPasswordContainer: {
-        alignItems: 'flex-end',
-        marginBottom: 15,
-    },
-    forgotPasswordText: {
-        color: '#C7753D',
-        fontSize: 13,
-        fontWeight: 'bold',
-    },
+    footerContainer: {
+        paddingHorizontal: 20,
+        marginTop: 10,
+        alignItems: "center",
+
+    }
+
 })
 export default styles;

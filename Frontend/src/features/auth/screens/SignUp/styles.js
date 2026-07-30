@@ -10,17 +10,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 50,
     },
-    avatarContainer: {
-        backgroundColor: "#FFE1D0",
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: 17,
-        marginTop: 20,
-        marginBottom: 10,
-    },
     title: {
         fontFamily: FONTS.abrilFatface,
         fontSize: 30,
@@ -41,15 +30,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginTop: 20,
         alignItems: "center"
-    },
-    forgotPasswordContainer: {
-        alignItems: 'flex-end',
-        marginBottom: 15,
-    },
-    forgotPasswordText: {
-        color: '#C7753D',
-        fontSize: 13,
-        fontWeight: 'bold',
-    },
+    }
+
 })
 export default styles;
