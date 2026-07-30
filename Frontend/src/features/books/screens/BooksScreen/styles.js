@@ -25,14 +25,16 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#D3E8C9",
+        backgroundColor: "#C7753D25",
+        borderWidth: 2,
+        borderColor: "#C7753D55",
         justifyContent: "center",
         alignItems: "center",
     },
     avatarText: {
         fontSize: 13,
         fontWeight: "700",
-        color: "#33502E",
+        color: "#C7753D",
     },
     searchContainer: {
         flexDirection: "row",

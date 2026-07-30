@@ -5,7 +5,7 @@ import styles from "./styles"
 
 const TABS = [
     { key: "Kitaplığım", icon: "home", route: "Books" },
-    { key: "Profil", icon: "person-outline", route: null },
+    { key: "Profil", icon: "person-outline", route: "Profile" },
 ]
 
 export const BottomNav = ({ active }) => {
