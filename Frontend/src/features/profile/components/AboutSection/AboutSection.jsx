@@ -1,23 +1,11 @@
 import { View } from "react-native"
-import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { showAlert } from "../../../../app/store/alertSlice"
 import { SectionHeader, SettingRow, Divider } from "../ProfilePrimitives/ProfilePrimitives"
-import { CustomAlert } from "../../../../shared/components/CustomAlert/CustomAlert"
 import styles from "./styles"
 
 export const AboutSection = () => {
-    const [alertConfig, setAlertConfig] = useState({
-        show: false,
-        title: "",
-        message: "",
-    })
-
-    const showAlert = (title, message) => {
-        setAlertConfig({ show: true, title, message })
-    }
-
-    const hideAlert = () => {
-        setAlertConfig({ show: false, title: "", message: "" })
-    }
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -27,19 +15,15 @@ export const AboutSection = () => {
                     icon="star"
                     label="Uygulamayı Değerlendir"
                     onPress={() =>
-                        showAlert("Teşekkürler!", "Değerlendirmeniz için teşekkür ederiz 🌟")
+                        dispatch(showAlert({
+                            title: "Teşekkürler!",
+                            message: "Değerlendirmeniz için teşekkür ederiz 🌟"
+                        }))
                     }
                 />
                 <Divider />
                 <SettingRow icon="code-slash" label="Versiyon" value="1.0.0" />
             </View>
-
-            <CustomAlert
-                visible={alertConfig.show}
-                title={alertConfig.title}
-                message={alertConfig.message}
-                onClose={hideAlert}
-            />
         </>
     )
 }

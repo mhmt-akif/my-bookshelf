@@ -41,6 +41,10 @@ export const ProfileHeader = () => {
         }
     };
 
+    const booksList = useSelector((state) => state.books.booksList) || []
+    const totalBooksCount = booksList.length
+    const readBooksCount = booksList.filter((b) => b.isRead).length
+
     return (
         <Animated.View
             style={[
@@ -67,9 +71,9 @@ export const ProfileHeader = () => {
 
             {/* Stats */}
             <View style={styles.statsRow}>
-                <StatItem value="8" label="Toplam Kitap" />
+                <StatItem value={totalBooksCount.toString()} label="Toplam Kitap" />
                 <View style={styles.statDivider} />
-                <StatItem value="5" label="Okunan" />
+                <StatItem value={readBooksCount.toString()} label="Okunan" />
                 <View style={styles.statDivider} />
                 <StatItem value={favoriteGenres.length.toString()} label="Favori Tür" />
             </View>
