@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { Header } from '../../../../shared/components/Header/Header';
@@ -7,26 +7,14 @@ import { Input } from '../../../auth/components/Input/Input';
 import { Picker } from '../../../../shared/components/Picker/Picker';
 import { Button } from '../../../../shared/components/Button/Button';
 import { CoverPicker } from '../../components/CoverPicker/CoverPicker';
-
-const CATEGORY_OPTIONS = [
-    'Roman',
-    'Bilim Kurgu',
-    'Tarih',
-    'Psikoloji',
-    'Felsefe',
-    'Şiir',
-    'Biyografi',
-    'Kişisel Gelişim',
-    'Polisiye',
-    'Fantastik',
-    'Macera',
-    'Sanat',
-    'Çocuk',
-    'Diğer',
-];
+import { useDispatch } from 'react-redux';
+import { addBook } from '../../../../app/store/bookSlice';
+import { showAlert } from '../../../../app/store/alertSlice';
+import CATEGORY_OPTIONS from '../../data/CategoryOptions';
 
 export const AddBookScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const [coverImage, setCoverImage] = useState(null);
     const [title, setTitle] = useState('');
@@ -36,21 +24,30 @@ export const AddBookScreen = () => {
 
     const handleSaveBook = () => {
         if (!title.trim()) {
-            Alert.alert("Uyarı", "Lütfen kitap adını giriniz.");
+            dispatch(showAlert({ title: "Uyarı", message: "Lütfen kitap adını giriniz." }));
             return;
         }
         if (!author.trim()) {
-            Alert.alert("Uyarı", "Lütfen yazar adını giriniz.");
+            dispatch(showAlert({ title: "Uyarı", message: "Lütfen yazar adını giriniz." }));
             return;
         }
         if (!category) {
-            Alert.alert("Uyarı", "Lütfen bir kategori seçiniz.");
+            dispatch(showAlert({ title: "Uyarı", message: "Lütfen bir kategori seçiniz." }));
             return;
         }
+        dispatch(addBook({
+            title: title,
+            author: author,
+            category: category,
+            pageCount: pageCount,
+            coverImage: coverImage,
+        }));
 
-        Alert.alert("Başarılı", `"${title}" adlı kitap başarıyla eklendi!`, [
-            { text: "Tamam", onPress: () => navigation.goBack() }
-        ]);
+        dispatch(showAlert({
+            title: "Başarılı",
+            message: `"${title}" adlı kitap başarıyla eklendi!`,
+            onConfirm: () => navigation.goBack()
+        }));
     };
 
     return (

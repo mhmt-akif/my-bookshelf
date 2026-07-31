@@ -2,23 +2,24 @@ import { TouchableOpacity, Text, Alert } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import styles from "./styles"
+import { useDispatch } from "react-redux"
+import { showAlert } from "../../../../app/store/alertSlice"
 
 export const LogoutButton = () => {
     const navigation = useNavigation()
 
+    //redux işlemlerinde alert 
+    const dispatch = useDispatch();
+
     const handleLogout = () => {
-        Alert.alert(
-            "Çıkış Yap",
-            "Hesabından çıkış yapmak istediğinden emin misin?",
-            [
-                { text: "İptal", style: "cancel" },
-                {
-                    text: "Çıkış Yap",
-                    style: "destructive",
-                    onPress: () => navigation.navigate("SignIn"),
-                },
-            ]
-        )
+        dispatch(showAlert({
+            title: "Çıkış Yap",
+            message: "Hesabından çıkış yapmak istediğinden emin misin?",
+            showCancel: true,
+            cancelText: "İptal",
+            confirmText: "Çıkış Yap",
+            onConfirm: () => navigation.navigate("SignIn"),
+        }))
     }
 
     return (

@@ -6,6 +6,8 @@ import {
     Modal,
 } from "react-native"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { showAlert } from "../../../../app/store/alertSlice"
 import {
     SectionHeader,
     SettingRow,
@@ -13,37 +15,31 @@ import {
     ACCENT,
 } from "../ProfilePrimitives/ProfilePrimitives"
 import { Input } from "../../../auth/components/Input/Input"
-import { CustomAlert } from "../../../../shared/components/CustomAlert/CustomAlert"
 import styles from "./styles"
 
 export const AccountSettings = () => {
+    const dispatch = useDispatch()
     const [notificationsEnabled, setNotificationsEnabled] = useState(true)
     const [showPasswordModal, setShowPasswordModal] = useState(false)
     const [oldPassword, setOldPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    const [alertConfig, setAlertConfig] = useState({
-        show: false,
-        title: "",
-        message: "",
-    })
-
-    const showAlert = (title, message) => {
-        setAlertConfig({ show: true, title, message })
-    }
-
-    const hideAlert = () => {
-        setAlertConfig({ show: false, title: "", message: "" })
-    }
-
     const handleChangePassword = () => {
         if (!oldPassword || !newPassword || !confirmPassword) {
-            showAlert("Hata", "Lütfen tüm alanları doldurun.")
+            dispatch(showAlert({ title: "Hata", message: "Lütfen tüm alanları doldurun." }))
+            return
+        }
+        if (newPassword.length < 6) {
+            dispatch(showAlert({ title: "Hata", message: "Yeni şifre en az 6 karakter olmalıdır." }))
             return
         }
         if (newPassword !== confirmPassword) {
-            showAlert("Hata", "Yeni şifreler eşleşmiyor.")
+            dispatch(showAlert({ title: "Hata", message: "Yeni şifreler eşleşmiyor." }))
+            return
+        }
+        if (oldPassword === newPassword) {
+            dispatch(showAlert({ title: "Hata", message: "Yeni şifre mevcut şifre ile aynı olamaz!" }))
             return
         }
 
@@ -53,7 +49,7 @@ export const AccountSettings = () => {
         setConfirmPassword("")
 
         setTimeout(() => {
-            showAlert("Başarılı", "Şifreniz başarıyla değiştirildi!")
+            dispatch(showAlert({ title: "Başarılı", message: "Şifreniz başarıyla değiştirildi!" }))
         }, 300)
     }
 
@@ -85,7 +81,7 @@ export const AccountSettings = () => {
                     icon="help-circle"
                     label="Yardım & Destek"
                     onPress={() =>
-                        showAlert("Yardım", "Destek için: destek@bookshelf.app adresine e-posta gönderin.")
+                        dispatch(showAlert({ title: "Yardım", message: "Destek için: destek@bookshelf.app adresine e-posta gönderin." }))
                     }
                 />
                 <Divider />
@@ -93,7 +89,7 @@ export const AccountSettings = () => {
                     icon="shield-checkmark"
                     label="Gizlilik Politikası"
                     onPress={() =>
-                        showAlert("Gizlilik", "Gizlilik politikamız yakında burada olacak.")
+                        dispatch(showAlert({ title: "Gizlilik", message: "Gizlilik politikamız yakında burada olacak." }))
                     }
                 />
             </View>
@@ -140,13 +136,6 @@ export const AccountSettings = () => {
                     </View>
                 </View>
             </Modal>
-
-            <CustomAlert
-                visible={alertConfig.show}
-                title={alertConfig.title}
-                message={alertConfig.message}
-                onClose={hideAlert}
-            />
         </>
     )
 }
