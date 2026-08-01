@@ -57,7 +57,6 @@ export const AddBookScreen = () => {
                     leftIcon={"arrow-left"}
                     onBackPress={() => navigation.goBack()}
                     title={"Kitap Ekle"}
-                    rightIcon={"check"}
                     onRightPress={handleSaveBook}
                 />
 
