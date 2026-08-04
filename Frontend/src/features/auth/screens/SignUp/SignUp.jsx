@@ -6,7 +6,8 @@ import { useState } from "react"
 import { Button } from "../../../../shared/components/Button/Button"
 import { Footer } from "../../components/Footer/Footer"
 import { useNavigation } from "@react-navigation/native"
-
+import { useSignUp } from "../../hooks/useSignUp"
+import { CustomIndicator } from "../../../../shared/components/CustomIndicator/CustomIndicator"
 export const SignUp = () => {
     const navigation = useNavigation()
 
@@ -14,6 +15,8 @@ export const SignUp = () => {
     const [fullName, setFullName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const { handleSignUp, loading } = useSignUp()
 
     return (
         <View style={styles.screen}>
@@ -50,14 +53,16 @@ export const SignUp = () => {
 
                 </View>
                 <View style={styles.btnContainer}>
-                    <Button title={"Kayıt Ol"} onPress={() => navigation.navigate("ForgotPassword")} />
+                    <Button title={"Kayıt Ol"} onPress={() => handleSignUp(fullName, email, password)} />
                 </View>
                 <Footer
                     text="Zaten hesabın var mı?"
                     linkText="Giriş yap"
-                    targetScreen="SignIn"
+                    targetScreen="ForgotPassword"
                 />
             </View>
+
+            <CustomIndicator visible={loading} text="Hesap oluşturuluyor..." fullScreen={true} />
         </View>
     )
 }

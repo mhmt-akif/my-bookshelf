@@ -5,49 +5,17 @@ import { Footer } from "../../components/Footer/Footer"
 import styles from "./styles"
 import { useState } from "react"
 import { useNavigation } from "@react-navigation/native"
-import { authService } from "../../services/authService"
 import { Header } from "../../../../shared/components/Header/Header"
 import { CustomIndicator } from "../../../../shared/components/CustomIndicator/CustomIndicator"
-import { useDispatch } from "react-redux"
-import { showAlert } from "../../../../app/store/alertSlice"
-import Entypo from '@expo/vector-icons/Entypo';
+import Entypo from '@expo/vector-icons/Entypo'
+import { useSignIn } from "../../hooks/useSignIn"
 
 export const SignIn = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigation = useNavigation()
-    const dispatch = useDispatch()
 
-    const [loading, setLoading] = useState(false)
-
-    const handleSignIn = async () => {
-        if (!email.trim() || !password.trim()) {
-            dispatch(showAlert({ title: "Uyarı", message: "Lütfen, e-posta ve şifrenizi giriniz!" }))
-            return
-        }
-        setLoading(true)
-
-        try {
-            const response = await authService.signInWithPassword(email, password)
-            console.log("Giriş başarılı Token/User:", response.user.id)
-            setLoading(false)
-
-            setTimeout(() => {
-                dispatch(showAlert({
-                    title: "Tebrikler",
-                    message: "Giriş Başarılı!",
-                    onConfirm: () => navigation.navigate("Books")
-                }))
-            }, 500)
-        } catch (error) {
-            console.log("Girişte hata!", error.message)
-            setLoading(false)
-
-            setTimeout(() => {
-                dispatch(showAlert({ title: "Hata", message: error.message }))
-            }, 500)
-        }
-    }
+    const { handleSignIn, loading } = useSignIn()
 
     return (
         <View style={styles.screen}>
@@ -91,11 +59,10 @@ export const SignIn = () => {
                 />
 
                 <View style={styles.btnContainer}>
-                    <Button title={"Giriş yap"} onPress={handleSignIn} />
+                    <Button title={"Giriş yap"} onPress={() => handleSignIn(email, password)} />
                 </View>
             </View>
 
-            {/* Lottie Yükleniyor Göstergesi */}
             <CustomIndicator visible={loading} text="Giriş yapılıyor..." fullScreen={true} />
         </View>
     )

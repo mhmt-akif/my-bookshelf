@@ -1,21 +1,12 @@
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Switch,
-    Modal,
-} from "react-native"
+import { View, Text, TouchableOpacity, Switch, Modal, } from "react-native"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { showAlert } from "../../../../app/store/alertSlice"
-import {
-    SectionHeader,
-    SettingRow,
-    Divider,
-    ACCENT,
-} from "../ProfilePrimitives/ProfilePrimitives"
+import { SectionHeader, SettingRow, Divider, ACCENT, } from "../ProfilePrimitives/ProfilePrimitives"
 import { Input } from "../../../auth/components/Input/Input"
 import styles from "./styles"
+import { CustomIndicator } from "../../../../shared/components/CustomIndicator/CustomIndicator"
+import { useChangePassword } from "../../hooks/useChangePassword"
 
 export const AccountSettings = () => {
     const dispatch = useDispatch()
@@ -25,33 +16,15 @@ export const AccountSettings = () => {
     const [newPassword, setNewPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    const handleChangePassword = () => {
-        if (!oldPassword || !newPassword || !confirmPassword) {
-            dispatch(showAlert({ title: "Hata", message: "Lütfen tüm alanları doldurun." }))
-            return
-        }
-        if (newPassword.length < 6) {
-            dispatch(showAlert({ title: "Hata", message: "Yeni şifre en az 6 karakter olmalıdır." }))
-            return
-        }
-        if (newPassword !== confirmPassword) {
-            dispatch(showAlert({ title: "Hata", message: "Yeni şifreler eşleşmiyor." }))
-            return
-        }
-        if (oldPassword === newPassword) {
-            dispatch(showAlert({ title: "Hata", message: "Yeni şifre mevcut şifre ile aynı olamaz!" }))
-            return
-        }
-
+    // Şifre başarıyla değişince modalı kapatıp inputları temizle
+    const handleSuccess = () => {
         setShowPasswordModal(false)
         setOldPassword("")
         setNewPassword("")
         setConfirmPassword("")
-
-        setTimeout(() => {
-            dispatch(showAlert({ title: "Başarılı", message: "Şifreniz başarıyla değiştirildi!" }))
-        }, 300)
     }
+
+    const { handleChangePassword, loading } = useChangePassword(handleSuccess)
 
     return (
         <>
@@ -124,7 +97,10 @@ export const AccountSettings = () => {
                             secureTextEntry
                             inputContainerStyle={styles.modalInputContainer}
                         />
-                        <TouchableOpacity style={styles.saveBtn} onPress={handleChangePassword}>
+                        <TouchableOpacity
+                            style={styles.saveBtn}
+                            onPress={() => handleChangePassword(oldPassword, newPassword, confirmPassword)}
+                        >
                             <Text style={styles.saveBtnText}>Kaydet</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -136,6 +112,8 @@ export const AccountSettings = () => {
                     </View>
                 </View>
             </Modal>
+
+            <CustomIndicator visible={loading} text="Şifre güncelleniyor..." fullScreen={true} />
         </>
     )
 }

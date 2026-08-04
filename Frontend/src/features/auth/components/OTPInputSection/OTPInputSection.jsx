@@ -7,12 +7,19 @@ import {
 } from "react-native"
 
 
-export const OTPInputSection = () => {
+export const OTPInputSection = ({ onCodeChange, value: externalValue }) => {
 
     //6 haneli kod
     const CODE_LENGTH = 6;
-    const [code, setCode] = useState("")
+    const [internalCode, setInternalCode] = useState("")
+    const code = externalValue !== undefined ? externalValue : internalCode;
     const inputRef = useRef(null);
+
+    const handleChange = (text) => {
+        const cleaned = text.replace(/[^0-9]/g, '');
+        setInternalCode(cleaned);
+        onCodeChange?.(cleaned);
+    };
 
     // Kutulara tıklandığında gizli TextInput'a odaklan
     const handlePress = () => {
@@ -36,7 +43,7 @@ export const OTPInputSection = () => {
             <TextInput
                 ref={inputRef}
                 value={code}
-                onChangeText={(text) => setCode(text.replace(/[^0-9]/g, ''))} // Sadece rakam kabul et
+                onChangeText={handleChange}
                 maxLength={CODE_LENGTH}
                 keyboardType="number-pad"
                 style={styles.hiddenInput}
