@@ -9,12 +9,16 @@ import { Button } from "../../../../shared/components/Button/Button";
 import { Footer } from "../../components/Footer/Footer";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useNewPassword } from "../../hooks/useNewPassword";
+import { CustomIndicator } from "../../../../shared/components/CustomIndicator/CustomIndicator";
 export const NewPassword = () => {
 
     const navigation = useNavigation();
 
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
+
+    const { handleUpdatePassword, loading } = useNewPassword();
 
     return (
         <View style={styles.screen}>
@@ -50,9 +54,14 @@ export const NewPassword = () => {
                 </View>
 
                 <View style={styles.btnContainer}>
-                    <Button title={"Şifremi Sıfırla"} onPress={() => navigation.navigate("SignIn")} />
+                    <Button title={"Şifreyi Güncelle"} onPress={() => handleUpdatePassword(password, passwordRepeat)} />
                 </View>
             </View>
+            <CustomIndicator
+                visible={loading}
+                text="Güncelleniyor..."
+                fullScreen={true}
+            />
         </View>
     )
 }

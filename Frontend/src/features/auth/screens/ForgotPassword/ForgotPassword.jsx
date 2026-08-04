@@ -8,11 +8,14 @@ import { useState } from "react";
 import { Button } from "../../../../shared/components/Button/Button";
 import { Footer } from "../../components/Footer/Footer";
 import { useNavigation } from "@react-navigation/native";
+import { useForgotPassword } from "../../hooks/useForgotPassword";
+import { CustomIndicator } from "../../../../shared/components/CustomIndicator/CustomIndicator";
 export const ForgotPassword = () => {
 
     const navigation = useNavigation();
 
     const [email, setEmail] = useState("");
+    const { handleForgotPassword, loading } = useForgotPassword();
 
     return (
         <View style={styles.screen}>
@@ -40,7 +43,7 @@ export const ForgotPassword = () => {
                 </View>
 
                 <View style={styles.btnContainer}>
-                    <Button title={"Şifremi Sıfırla"} onPress={() => navigation.navigate("Verification")} />
+                    <Button title={"Şifremi Sıfırla"} onPress={() => handleForgotPassword(email)} />
                 </View>
                 <Footer
                     text="Şifreni hatırladın mı?"
@@ -48,6 +51,11 @@ export const ForgotPassword = () => {
                     targetScreen="SignIn"
                 />
             </View>
+            <CustomIndicator
+                visible={loading}
+                text="Kod gönderiliyor..."
+                fullScreen={true}
+            />
         </View>
     )
 }

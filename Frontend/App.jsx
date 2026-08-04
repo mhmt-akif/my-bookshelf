@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useFonts, AbrilFatface_400Regular } from '@expo-google-fonts/abril-fatface';
 import { PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';

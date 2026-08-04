@@ -54,7 +54,6 @@ export default function AppNavigator() {
           <Stack.Screen name="AddBook" component={AddBookScreen} options={{ headerShown: false }} />
           <Stack.Screen name="BookDetail" component={BookDetailScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-
         </Stack.Navigator>
         <GlobalAlert />
       </NavigationContainer>
