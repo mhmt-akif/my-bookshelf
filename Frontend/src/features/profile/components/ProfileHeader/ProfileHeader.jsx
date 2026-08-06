@@ -1,18 +1,22 @@
 import { View, Text, TouchableOpacity, Animated, Image } from "react-native"
 import { useRef, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { setProfileImage } from "../../../../app/store/userSlice"
 import * as ImagePicker from "expo-image-picker"
 import { Ionicons } from "@expo/vector-icons"
 import styles from "./styles"
+import { useProfileImage } from "../../hooks/useProfileImage"
 
 export const ProfileHeader = () => {
     const fadeAnim = useRef(new Animated.Value(0)).current
     const slideAnim = useRef(new Animated.Value(24)).current
     const dispatch = useDispatch()
+    const { updateProfileImage } = useProfileImage()
     const profileImage = useSelector((state) => state.user.profileImage)
     const favoriteGenres = useSelector((state) => state.user.favoriteGenres)
+    const {user}=useSelector((state)=>state.auth);
 
+    const email=user?.email ||"deneme@ornek.com"
+    const full_name=user?.user_metadata?.full_name ||"Deneme Kullanıcı"
     useEffect(() => {
         Animated.parallel([
             Animated.timing(fadeAnim, {
@@ -37,7 +41,7 @@ export const ProfileHeader = () => {
         });
 
         if (!result.canceled) {
-            dispatch(setProfileImage(result.assets[0].uri));
+            updateProfileImage(result.assets[0].uri);
         }
     };
 
@@ -58,7 +62,7 @@ export const ProfileHeader = () => {
                     {profileImage ? (
                         <Image source={{ uri: profileImage }} style={styles.avatarImage} />
                     ) : (
-                        <Text style={styles.avatarText}>MA</Text>
+                        <Text style={styles.avatarText}>{full_name.split(' ').map(n => n[0]).join('')}</Text>
                     )}
                 </View>
                 <View style={styles.editBadge}>
@@ -66,8 +70,8 @@ export const ProfileHeader = () => {
                 </View>
             </TouchableOpacity>
 
-            <Text style={styles.userName}>Mehmet Akif Bozkurt</Text>
-            <Text style={styles.userEmail}>makif@ornek.com</Text>
+            <Text style={styles.userName}>{full_name}</Text>
+            <Text style={styles.userEmail}>{email}</Text>
 
             {/* Stats */}
             <View style={styles.statsRow}>

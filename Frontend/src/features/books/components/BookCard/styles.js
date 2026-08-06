@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 14,
     },
+    coverPlaceholder: {
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     info: {
         flex: 1,
     },

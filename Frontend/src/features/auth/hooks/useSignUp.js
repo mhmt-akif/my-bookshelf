@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { useNavigation } from "@react-navigation/native"
 import { showAlert } from "../../../app/store/alertSlice";
 import { authService } from "../services/authService";
-
+import {setUser} from "../../../app/store/authSlice"
 export const useSignUp = () => {
 
     const [loading, setLoading] = useState(false);
@@ -35,6 +35,8 @@ export const useSignUp = () => {
             
             // Eğer e-posta doğrulaması kapalıysa direkt giriş yapılır ve session döner
             if (data?.session) {
+                dispatch(setUser(data.session.user));
+
                 dispatch(showAlert({
                     title: "Başarılı 🎉",
                     message: "Kayıt işlemi başarıyla tamamlandı!",

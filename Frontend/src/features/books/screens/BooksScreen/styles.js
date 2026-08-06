@@ -21,6 +21,19 @@ const styles = StyleSheet.create({
         fontWeight: "900",
         color: "#2C2C2C",
     },
+    headerRight: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12,
+    },
+    statsIconBtn: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: "#EBDDC5",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     avatar: {
         width: 40,
         height: 40,

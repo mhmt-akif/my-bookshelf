@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { useNavigation } from "@react-navigation/native"
 import { authService } from "../services/authService"
 import { showAlert } from "../../../app/store/alertSlice"
+import {setUser} from "../../../app/store/authSlice"
 export const useSignIn = () => {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
@@ -14,7 +15,8 @@ export const useSignIn = () => {
         }
         setLoading(true)
         try {
-            await authService.signInWithPassword(email, password)
+            const data=await authService.signInWithPassword(email, password)
+            dispatch(setUser(data.user))
             dispatch(showAlert({
                 title: "Tebrikler",
                 message: "Giriş Başarılı!",

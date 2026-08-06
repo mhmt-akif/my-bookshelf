@@ -6,11 +6,11 @@ import {
     ScrollView,
 } from "react-native"
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { setFavoriteGenres } from "../../../../app/store/userSlice"
+import { useSelector } from "react-redux"
 import { Ionicons } from "@expo/vector-icons"
 import { SectionHeader, ACCENT } from "../ProfilePrimitives/ProfilePrimitives"
 import styles from "./styles"
+import { useFavoriteGenres } from "../../hooks/useFavoriteGenres"
 
 const GENRE_LIST = [
     { id: "1", label: "Roman", icon: "book" },
@@ -22,7 +22,7 @@ const GENRE_LIST = [
 ]
 
 export const FavoriteGenres = () => {
-    const dispatch = useDispatch()
+    const { updateFavoriteGenres } = useFavoriteGenres()
     const selectedGenres = useSelector((state) => state.user.favoriteGenres)
     const [showModal, setShowModal] = useState(false)
 
@@ -30,7 +30,7 @@ export const FavoriteGenres = () => {
         const newGenres = selectedGenres.includes(id)
             ? selectedGenres.filter((g) => g !== id)
             : [...selectedGenres, id]
-        dispatch(setFavoriteGenres(newGenres))
+        updateFavoriteGenres(newGenres)
     }
 
     return (

@@ -15,6 +15,7 @@ const userSlice = createSlice({
     setFavoriteGenres: (state, action) => {
       state.favoriteGenres = action.payload;
     },
+    
   },
 });
 
