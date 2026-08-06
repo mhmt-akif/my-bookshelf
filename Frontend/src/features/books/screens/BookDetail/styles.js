@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'cover',
     },
+    coverPlaceholder: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -72,7 +78,29 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#2C2C2C',
-    }
+    },
+    editForm: {
+        width: '100%',
+    },
+    deleteButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 28,
+        paddingVertical: 14,
+        alignSelf: 'stretch',
+        marginHorizontal: 8,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#F0B8AE',
+        backgroundColor: '#FBEAE7',
+    },
+    deleteButtonText: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: '#C0392B',
+        marginLeft: 8,
+    },
 });
 
 export default styles;

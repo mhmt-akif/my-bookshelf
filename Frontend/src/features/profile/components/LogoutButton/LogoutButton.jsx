@@ -4,7 +4,8 @@ import { useNavigation } from "@react-navigation/native"
 import styles from "./styles"
 import { useDispatch } from "react-redux"
 import { showAlert } from "../../../../app/store/alertSlice"
-
+import {authService} from "../../../auth/services/authService"
+import {clearUser} from "../../../../app/store/authSlice"
 export const LogoutButton = () => {
     const navigation = useNavigation()
 
@@ -12,13 +13,18 @@ export const LogoutButton = () => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
+
         dispatch(showAlert({
             title: "Çıkış Yap",
             message: "Hesabından çıkış yapmak istediğinden emin misin?",
             showCancel: true,
             cancelText: "İptal",
             confirmText: "Çıkış Yap",
-            onConfirm: () => navigation.navigate("SignIn"),
+            onConfirm: async () => {
+                await authService.signOut();
+                dispatch(clearUser());
+                navigation.navigate("SignIn");
+            },
         }))
     }
 

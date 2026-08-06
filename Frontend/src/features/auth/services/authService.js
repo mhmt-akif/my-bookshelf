@@ -92,8 +92,8 @@ export const authService = {
         return data;
     },
     async onAuthStateChange(callback) {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            callback(session);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            callback(session, event);
         });
         return subscription;
     },
@@ -114,5 +114,15 @@ export const authService = {
         })
         if (error) throw error;
         return data;
-    }
+    },
+
+    // Kullanıcının user_metadata alanını (mevcut verilerle birleştirerek) günceller
+    async updateUserMetadata(metadata) {
+        const currentUser = await this.getCurrentUser();
+        const { data, error } = await supabase.auth.updateUser({
+            data: { ...currentUser?.user_metadata, ...metadata },
+        });
+        if (error) throw error;
+        return data.user;
+    },
 };

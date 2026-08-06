@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { Header } from '../../../../shared/components/Header/Header';
@@ -7,14 +7,12 @@ import { Input } from '../../../auth/components/Input/Input';
 import { Picker } from '../../../../shared/components/Picker/Picker';
 import { Button } from '../../../../shared/components/Button/Button';
 import { CoverPicker } from '../../components/CoverPicker/CoverPicker';
-import { useDispatch } from 'react-redux';
-import { addBook } from '../../../../app/store/bookSlice';
-import { showAlert } from '../../../../app/store/alertSlice';
+import { useAddBook } from '../../hooks/useAddBook';
 import CATEGORY_OPTIONS from '../../data/CategoryOptions';
 
 export const AddBookScreen = () => {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
+    const { handleSaveBook, loading } = useAddBook();
 
     const [coverImage, setCoverImage] = useState(null);
     const [title, setTitle] = useState('');
@@ -22,32 +20,15 @@ export const AddBookScreen = () => {
     const [category, setCategory] = useState('');
     const [pageCount, setPageCount] = useState('');
 
-    const handleSaveBook = () => {
-        if (!title.trim()) {
-            dispatch(showAlert({ title: "Uyarı", message: "Lütfen kitap adını giriniz." }));
-            return;
-        }
-        if (!author.trim()) {
-            dispatch(showAlert({ title: "Uyarı", message: "Lütfen yazar adını giriniz." }));
-            return;
-        }
-        if (!category) {
-            dispatch(showAlert({ title: "Uyarı", message: "Lütfen bir kategori seçiniz." }));
-            return;
-        }
-        dispatch(addBook({
-            title: title,
-            author: author,
-            category: category,
-            pageCount: pageCount,
-            coverImage: coverImage,
-        }));
-
-        dispatch(showAlert({
-            title: "Başarılı",
-            message: `"${title}" adlı kitap başarıyla eklendi!`,
-            onConfirm: () => navigation.goBack()
-        }));
+    const onSavePress = () => {
+        handleSaveBook({
+            title,
+            author,
+            category,
+            totalPages: pageCount,
+            pageCount: Number(pageCount),
+            coverImage,
+        });
     };
 
     return (
@@ -57,7 +38,7 @@ export const AddBookScreen = () => {
                     leftIcon={"arrow-left"}
                     onBackPress={() => navigation.goBack()}
                     title={"Kitap Ekle"}
-                    onRightPress={handleSaveBook}
+                    onRightPress={onSavePress}
                 />
 
                 <KeyboardAvoidingView
@@ -110,7 +91,12 @@ export const AddBookScreen = () => {
                             </View>
 
                             <View style={styles.buttonContainer}>
-                                <Button title={"Kitap Ekle"} onPress={handleSaveBook} />
+                                <Button
+                                    title={loading ? "Ekleniyor..." : "Kitap Ekle"}
+                                    onPress={onSavePress}
+                                    disabled={loading}
+                                />
+                                {loading && <ActivityIndicator style={{ marginTop: 8 }} />}
                             </View>
                         </View>
                     </ScrollView>
